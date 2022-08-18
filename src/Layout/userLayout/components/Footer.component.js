@@ -2,7 +2,6 @@
 
 export function Footer(){
 
-    // <div style={{heigh : "30px", border:"solide black 2px"}}> <p>footer User</p></div>
     return(
         <>
         
@@ -54,35 +53,6 @@ export function Footer(){
       
       <div className="row">
     
-        {/* <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 className="text-uppercase">Links</h5>
-
-          <ul className="list-unstyled mb-0">
-            <li>
-              <a href="#!" className="text-white">Link 1</a>
-            </li>
-            <li>
-              <a href="#!" className="text-white">Link 2</a>
-            </li>
-            
-          </ul>
-        </div> */}
-       
-
-      
-        {/* <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 className="text-uppercase"></h5>
-
-          <ul className="list-unstyled mb-0">
-            <li>
-              <a href="#!" className="text-white"> </a>
-            </li>
-            <li>
-              <a href="#!" className="text-white"></a>
-            </li>
-            
-          </ul>
-        </div> */}
      
 
        
