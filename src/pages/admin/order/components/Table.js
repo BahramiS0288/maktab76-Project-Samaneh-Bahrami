@@ -33,7 +33,7 @@ const Table = ({changeModal,changeModalTahvil,IsTahvil}) => {
     useEffect(() =>{
         const getOrder = async () =>{
             const res = await fetch(
-                `http://localhost:4000/orders?_page=1&_limit=${limit}`
+                `http://localhost:3001/orders?_page=1&_limit=${limit}`
             );
             const data = await res.json();
             const total = res.headers.get('x-total-count')
@@ -46,7 +46,7 @@ const Table = ({changeModal,changeModalTahvil,IsTahvil}) => {
 
     const fetchOrder= async(currentPage)=>{
         const res = await fetch(
-            `http://localhost:4000/orders?_page=${currentPage}&_limit=${limit}`
+            `http://localhost:3001/orders?_page=${currentPage}&_limit=${limit}`
         )
         const data = await res.json();
         return data
@@ -59,7 +59,7 @@ const Table = ({changeModal,changeModalTahvil,IsTahvil}) => {
       }
       const getOrderList = (id) =>{
         fetch(
-            `http://localhost:4000/orders/${id}`
+            `http://localhost:3001/orders/${id}`
         ).then((res)=>res.json())
         .then((data) => {setProductsOrder(data)
         f=data
