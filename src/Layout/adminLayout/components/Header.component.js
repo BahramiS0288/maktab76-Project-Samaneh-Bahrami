@@ -5,8 +5,8 @@ import logo from '../../../asset/images/istockphoto-1188700274-612x612-removebg-
 
 const Container = styled.div`
    height :60px;
-   margin :10px;
-   background-color:gainsboro
+   width: 960px;
+   
    
 `;
 const Wrapper = styled.div`
