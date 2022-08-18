@@ -10,6 +10,7 @@ import { AdminLayout } from "../Layout/adminLayout/Admin.layout";
 import { Inventory } from "../pages/admin/inventory/Inventory.page";
 import { Order } from "../pages/admin/order/Order.page";
 import { ProductList } from "../pages/admin/productList/ProductList.page";
+import Login from './../pages/login/index'
 import Error404 from "../pages/errors/Error404";
 import React from "react";
 
@@ -25,6 +26,7 @@ export function AppRoutes() {
           <Route path="/productOverview" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />
         </Route>
+        <Route path="/admin" element={<Login />} />
         <Route element={<AdminLayout />}>
           <Route path="/admin/product" element={<ProductList />} />
           <Route path="/admin/inventory" element={<Inventory />} />
