@@ -30,7 +30,7 @@ export function Header() {
       <div className="collapse navbar-collapse col-2" id="navbarNav">
         <ul className="navbar-nav ">
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/admin">
               مدیریت <span className="sr-only"></span>
             </a>
           </li>

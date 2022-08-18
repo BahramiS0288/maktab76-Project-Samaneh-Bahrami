@@ -32,7 +32,7 @@ const ProductGroupTable = () => {
     useEffect(() =>{
         const getOrder = async () =>{
             const res = await fetch(
-                `http://localhost:4000/products?_page=1&_limit=${limit}`
+                `http://localhost:3001/products?_page=1&_limit=${limit}`
             );
             const data = await res.json();
             const total = res.headers.get('x-total-count')
@@ -45,7 +45,7 @@ const ProductGroupTable = () => {
 
     const fetchOrder= async(currentPage)=>{
         const res = await fetch(
-            `http://localhost:4000/products?_page=${currentPage}&_limit=${limit}`
+            `http://localhost:3001/products?_page=${currentPage}&_limit=${limit}`
         )
         const data = await res.json();
         return data
@@ -69,9 +69,9 @@ const ProductGroupTable = () => {
             
         </tr>
         {products.map((product)=>{
-            const{id,name,groupname,image}=product
+            const{id,name,groupname,thumbnail}=product
             return <tr key={id}>
-                <td>{image}</td>
+                <td>{thumbnail}</td>
                 <td>{name}</td>
                 <td>{groupname}</td>
                 <td><a href="" className='px-2'> حذف </a>
