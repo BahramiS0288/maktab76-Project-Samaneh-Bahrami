@@ -70,13 +70,13 @@ const a=()=>{
   
     return( 
     <div className='container'>
-      <div className="d-flex justify-content-between" dir="rtl">
+      <div className="d-flex justify-content-between mt-5" dir="rtl">
           <h1>مدیریت سفارش ها</h1>
           <div>
-            <form name="form">
-              <label htmlFor="deliver">سفارش ها تحویل شده</label>
+            <form name="form" className="mt-3">
+              <label htmlFor="deliver" className="mx-2">سفارش ها تحویل شده</label>
                 <input type="radio" id="deliver"  value="deliver" name="myradio" onChange={a}/>
-                  <label htmlFor="notdeliver">سفارش های در انتظار تحویل</label>
+                  <label htmlFor="notdeliver" className="mx-2">سفارش های در انتظار تحویل</label>
                 <input type="radio" id="notdeliver" value="notdeliver" name="myradio" onChange={a}/>
             </form>
           </div>

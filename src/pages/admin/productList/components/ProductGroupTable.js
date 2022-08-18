@@ -4,12 +4,16 @@ import ReactPaginate from 'react-paginate'
 
 const TableStyle=styled.table` 
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
     direction: rtl;
+    margin-top:100px;
+    margin-left:80px;
+    border-top:2px dashed #D6EEEE;
+    border-bottom:2px dashed #D6EEEE;
   
   th, td {
 
-    text-align: right;
+    
     padding: 8px;
   }
   
@@ -23,7 +27,7 @@ const ProductGroupTable = () => {
     const[products,setProducts]=useState([]);
     const[pageCount,setPageCount] = useState(0)
 
-    const limit =7
+    const limit =5
 
     useEffect(() =>{
         const getOrder = async () =>{
@@ -61,7 +65,7 @@ const ProductGroupTable = () => {
             <th>تصویر</th>
             <th> نام کلا</th>
             <th> دسته بندی</th>
-            <th>  ادیت</th>
+            <th >  </th>
             
         </tr>
         {products.map((product)=>{
@@ -70,8 +74,8 @@ const ProductGroupTable = () => {
                 <td>{image}</td>
                 <td>{name}</td>
                 <td>{groupname}</td>
-                <td><a href=""> حذف </a>
-                <a href=""> ویرایش </a></td>
+                <td><a href="" className='px-2'> حذف </a>
+                <a href="" className='px-2'> ویرایش </a></td>
             </tr>
         })}
     </TableStyle>
@@ -84,7 +88,7 @@ const ProductGroupTable = () => {
         marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
-        containerClassName={'pagination justify-content-center'}
+        containerClassName={'pagination justify-content-center mt-5 pt-5'}
         pageClassName={'page-item'}
         pageLinkClassName={'page-link'}
         previousClassName={'page-item'}

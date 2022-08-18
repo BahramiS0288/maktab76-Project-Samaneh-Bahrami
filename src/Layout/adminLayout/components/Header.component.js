@@ -1,9 +1,12 @@
 import {NavLink , Outlet} from 'react-router-dom'
 import React from "react";
 import styled from 'styled-components';
+import logo from '../../../asset/images/istockphoto-1188700274-612x612-removebg-preview.png'
 
 const Container = styled.div`
    height :60px;
+   margin :10px;
+   background-color:gainsboro
    
 `;
 const Wrapper = styled.div`
@@ -13,6 +16,7 @@ const Wrapper = styled.div`
 `;
 const Left =styled.div`
   flex:1;
+  margin-top: 10px;
 `;
 const Right =styled.div`
 direction: rtl;
@@ -22,6 +26,7 @@ direction: rtl;
 const Center =styled.div`
 direction: rtl;
   flex:2;
+  margin-top:5px
 
 `;
 const Language = styled.span`
@@ -38,13 +43,21 @@ const Nav=styled.nav`
     font-weight: bold;
    }
 `
+const Image =styled.img`
+height: 50px;
+width: 80px;
+`
+const A=styled.a`
+text-decoration: none;
+color: black;
+`
 
 export function Header(){
 
     return(
         <Container>
         <Wrapper>
-            <Left>بازگشت به سایت</Left>
+            <Left><A href="/">بازگشت به سایت</A></Left>
             <Center>
                 <Nav>
                     <NavLink to='/admin/product'>کالاها</NavLink>
@@ -52,7 +65,9 @@ export function Header(){
                     <NavLink to='/admin/order'>سفارش ها</NavLink>
                 </Nav>
             </Center>
-            <Right><Language>پنل مدیریت فروشگاه </Language></Right>
+            <Right>
+                <Image src={logo} alt="" />
+                <Language>پنل مدیریت فروشگاه </Language></Right>
         </Wrapper>
         </Container>
     )

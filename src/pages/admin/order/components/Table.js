@@ -5,11 +5,14 @@ import ReactPaginate from 'react-paginate'
 
 const TableStyle=styled.table` 
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
     direction: rtl;
+    margin-top:100px;
+    margin-left:80px;
+    border-top:2px dashed #D6EEEE;
+    border-bottom:2px dashed #D6EEEE;
   
   th, td {
-    text-align: left;
     padding: 8px;
   }
   
@@ -112,7 +115,7 @@ const Table = ({changeModal,changeModalTahvil,IsTahvil}) => {
         marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
-        containerClassName={'pagination justify-content-center'}
+        containerClassName={'pagination justify-content-center mt-5 pt-5'}
         pageClassName={'page-item'}
         pageLinkClassName={'page-link'}
         previousClassName={'page-item'}

@@ -1,10 +1,12 @@
+import { NavLink } from "react-router-dom";
 
 
 export function Header(){
 
     return(
         <>
-        <div style={{heigh : "30px", border:"solide black 2px"}}> <p>هدر یوزر</p></div>
+        <NavLink to='/admin'> مدیریت </NavLink>
+        <NavLink to='/admin'> سبد خرید  </NavLink>
         </>
     )
 }

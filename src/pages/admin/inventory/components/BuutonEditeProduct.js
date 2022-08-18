@@ -9,9 +9,9 @@ function BuutonEditeProduct() {
 
   return (
     <>
-      <div className="d-flex justify-content-between" dir="rtl">
+      <div className="d-flex justify-content-between mt-5" dir="rtl">
         <h1>مدیریت موجودی ها و قیمت ها</h1>
-        <button  className='btn btn-success' onClick={handleClick}> ذخیره</button>
+        <button  className='btn btn-success py-2 px-5' onClick={handleClick}> ذخیره</button>
     </div>
     </>
   )
