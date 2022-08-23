@@ -10,7 +10,7 @@ import { AdminLayout } from "../Layout/adminLayout/Admin.layout";
 import { Inventory } from "../pages/admin/inventory/Inventory.page";
 import { Order } from "../pages/admin/order/Order.page";
 import { ProductList } from "../pages/admin/productList/ProductList.page";
-import Login from './../pages/login/index'
+import Login from './../pages/login/Login'
 import Error404 from "../pages/errors/Error404";
 import React from "react";
 

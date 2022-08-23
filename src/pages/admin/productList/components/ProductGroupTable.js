@@ -19,6 +19,7 @@ const TableStyle=styled.table`
   
   tr:nth-child(even) {
     background-color: #D6EEEE;
+    
   }
   `
  
@@ -32,7 +33,7 @@ const ProductGroupTable = () => {
     useEffect(() =>{
         const getOrder = async () =>{
             const res = await fetch(
-                `http://localhost:3001/products?_page=1&_limit=${limit}`
+                `http://localhost:3002/products?_page=1&_limit=${limit}`
             );
             const data = await res.json();
             const total = res.headers.get('x-total-count')
@@ -45,13 +46,14 @@ const ProductGroupTable = () => {
 
     const fetchOrder= async(currentPage)=>{
         const res = await fetch(
-            `http://localhost:3001/products?_page=${currentPage}&_limit=${limit}`
+            `http://localhost:3002/products?_page=${currentPage}&_limit=${limit}`
         )
         const data = await res.json();
         return data
      }
     
       const handlePageClick= async({selected})=>{
+        console.log(selected);
         let currentPage = selected +1 ;
         const dataOfServer = await fetchOrder(currentPage);
         setProducts(dataOfServer);
@@ -61,6 +63,7 @@ const ProductGroupTable = () => {
     <>
     
     <TableStyle>
+      <thead>
         <tr>
             <th>تصویر</th>
             <th> نام کلا</th>
@@ -68,25 +71,30 @@ const ProductGroupTable = () => {
             <th >  </th>
             
         </tr>
+        </thead>
+        <tbody>
         {products.map((product)=>{
             const{id,name,groupname,thumbnail}=product
+            console.log(`http://localhost:3002/files/${thumbnail}`);
             return <tr key={id}>
-                <td>{thumbnail}</td>
+                <td><img src={`http://localhost:3002/files/${thumbnail}`} alt="" style={{height: "25px",
+    width: "25px",marginRight:"8px"}}/></td>
                 <td>{name}</td>
                 <td>{groupname}</td>
                 <td><a href="" className='px-2'> حذف </a>
                 <a href="" className='px-2'> ویرایش </a></td>
             </tr>
+            
         })}
+        </tbody>
     </TableStyle>
 
     <ReactPaginate
         previousLabel={'previous'}
         nextLabel={'next'}
-        breakLabel={'...'}
+        
         pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={2}
+        
         onPageChange={handlePageClick}
         containerClassName={'pagination justify-content-center mt-5 pt-5'}
         pageClassName={'page-item'}
@@ -104,3 +112,6 @@ const ProductGroupTable = () => {
 }
 
 export default ProductGroupTable
+// marginPagesDisplayed={2}
+//         pageRangeDisplayed={2}
+//breakLabel={'...'}

@@ -1,8 +1,9 @@
 import React from 'react'
+import {Form , Field} from "formik"
 
-
-const Login = () => {
+const FormLogin = ({errors,touched}) => {
   return (
+    <Form >
     <section className="vh-100 gradient-custom">
   <div className="container py-5 h-100">
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -16,13 +17,14 @@ const Login = () => {
               <p className="text-white-50 mb-5 mt-4">لطفا نام کاربری و رمز عبور را وارد کنید</p>
 
               <div className="form-outline form-white mb-4">
-                <input type="email" id="typeEmailX" className="form-control form-control-lg" dir='rtl' placeholder='نام کاربری'/>
+                <Field name="username" type="text" id="typeEmailX" className={`form-control form-control-lg `} dir='rtl' placeholder='نام کاربری'/>
+                <small className='text-danger'>{touched.username ? errors.username : ''}</small>
                 
               </div>
 
               <div className="form-outline form-white mb-4">
-                <input type="password" id="typePasswordX" className="form-control form-control-lg" dir='rtl' placeholder=' رمز عبور'/>
-                
+                <Field name="password" type="password" id="typePasswordX" className="form-control form-control-lg" dir='rtl' placeholder=' رمز عبور'/>
+                <small className='text-danger'>{touched.password ? errors.password : ''}</small>
               </div>
 
 
@@ -42,7 +44,8 @@ const Login = () => {
     </div>
   </div>
 </section>
+</Form>
   )
 }
 
-export default Login
+export default FormLogin
