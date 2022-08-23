@@ -6,9 +6,9 @@ import ModalTahvil from "./ModalTahvil";
 const TableStyle=styled.table` 
 border-collapse: collapse;
     width: 80%;
-    direction: rtl;
+    /* direction: rtl; */
     margin-top: 100px;
-    margin-left: 80px;
+    margin-right: 80px;
     border-top: 2px dashed #d6eeee;
   
   th, td {
@@ -72,7 +72,7 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
             const{id,name,sumBuying,deliveryTime}=order
             return <tr key={id}>
                 <td>{name}</td>
-                <td>{sumBuying}</td>
+                <td>{Number(sumBuying).toLocaleString()} ریال</td>
                 <td>{deliveryTime}</td>
                 <td><a onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</a></td>
             </tr>

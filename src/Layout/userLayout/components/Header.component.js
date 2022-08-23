@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+
 import styled from "styled-components";
 import Logo from "./../../../asset/images/istockphoto-1188700274-612x612-removebg-preview.png";
 
@@ -11,8 +11,11 @@ export function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light " dir="rtl">
       <div className="col-10 d-flex">
-        <Image src={Logo} alt="" />
-        <a className="navbar-brand mt-4" href="#">
+        <a href="/">
+        <Image  src={Logo} alt=""  />
+        </a>
+        
+        <a className="navbar-brand mt-4" href="/">
           <h1>الکترونیک کالا</h1>{" "}
         </a>
       </div>

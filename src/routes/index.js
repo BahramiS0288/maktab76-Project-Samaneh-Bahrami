@@ -26,7 +26,7 @@ export function AppRoutes() {
           <Route path="/productOverview" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />
         </Route>
-        <Route path="/admin" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route element={<AdminLayout />}>
           <Route path="/admin/product" element={<ProductList />} />
           <Route path="/admin/inventory" element={<Inventory />} />

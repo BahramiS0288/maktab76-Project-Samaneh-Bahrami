@@ -15,14 +15,13 @@ const Pagination = ({pageCount,fetchOrder}) => {
   return (
     <div>
       <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
-        breakLabel={'...'}
+        previousLabel={'قبلی'}
+        nextLabel={'بعدی'}
         pageCount={pageCount}
         marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
-        containerClassName={'pagination justify-content-center mt-5 pt-5'}
+        containerClassName={'pagination justify-content-center mb-5 pb-5 fixed-bottom'}
         pageClassName={'page-item'}
         pageLinkClassName={'page-link'}
         previousClassName={'page-item'}

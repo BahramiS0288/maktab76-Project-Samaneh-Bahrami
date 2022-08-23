@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 const ImageSlider = ({slides}) => {
     const[currentIndex,setCurrentIndex]=useState(0)
-const left ='<'
-const right ='>'
+const left ='>'
+const right ='<'
     const sliderStyles={
         height:'100%',
         position:'relative'

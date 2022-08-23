@@ -54,7 +54,22 @@ export function Footer(){
       <div className="row">
     
      
+      <div className="col-lg-6 col-md-6 mb-4 mb-md-0">
+          <h5 className="text-uppercase my-4">تماس با ما</h5>
 
+          <ul className="list-unstyled mb-0">
+            <p>
+              dfghgghgfcda@
+              <i class="bi bi-envelope mx-3 "></i>
+            </p>
+            <p>
+            
+              095631485226
+              <i className="bi bi-telephone mx-3 text-grayis"></i>
+            </p>
+            
+          </ul>
+        </div>
        
         <div className="col-lg-6 col-md-6 mb-4 mb-md-0">
           <h5 className="text-uppercase my-4">منابع</h5>
@@ -72,22 +87,7 @@ export function Footer(){
      
 
       
-        <div className="col-lg-6 col-md-6 mb-4 mb-md-0">
-          <h5 className="text-uppercase my-4">تماس با ما</h5>
-
-          <ul className="list-unstyled mb-0">
-            <p>
-              @dfghgghgfcda
-              <i class="bi bi-envelope mx-3 "></i>
-            </p>
-            <p>
-            
-              095631485226
-              <i className="bi bi-telephone mx-3 text-grayis"></i>
-            </p>
-            
-          </ul>
-        </div>
+       
       
       </div>
       

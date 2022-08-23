@@ -19,12 +19,12 @@ const Left =styled.div`
   margin-top: 10px;
 `;
 const Right =styled.div`
-direction: rtl;
+/* direction: rtl; */
   flex:2;
 
 `;
 const Center =styled.div`
-direction: rtl;
+/* direction: rtl; */
   flex:2;
   margin-top:5px
 
@@ -57,7 +57,10 @@ export function Header(){
     return(
         <Container>
         <Wrapper>
-            <Left><A href="/">بازگشت به سایت</A></Left>
+        <Right>
+                <Image src={logo} alt="" />
+                <Language>پنل مدیریت فروشگاه </Language>
+                </Right>
             <Center>
                 <Nav>
                     <NavLink to='/admin/product'>کالاها</NavLink>
@@ -65,9 +68,8 @@ export function Header(){
                     <NavLink to='/admin/order'>سفارش ها</NavLink>
                 </Nav>
             </Center>
-            <Right>
-                <Image src={logo} alt="" />
-                <Language>پنل مدیریت فروشگاه </Language></Right>
+            
+                <Left><A href="/">بازگشت به سایت</A></Left>
         </Wrapper>
         </Container>
     )

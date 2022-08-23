@@ -5,9 +5,9 @@ import ReactPaginate from 'react-paginate'
 const TableStyle=styled.table` 
     border-collapse: collapse;
     width: 80%;
-    direction: rtl;
+    /* direction: rtl; */
     margin-top:100px;
-    margin-left:80px;
+    margin-right:80px;
     border-top:2px dashed #D6EEEE;
     border-bottom:2px dashed #D6EEEE;
   
@@ -90,13 +90,12 @@ const ProductGroupTable = () => {
     </TableStyle>
 
     <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
+        previousLabel={'قبلی'}
+        nextLabel={'بعدی'}
         
         pageCount={pageCount}
-        
         onPageChange={handlePageClick}
-        containerClassName={'pagination justify-content-center mt-5 pt-5'}
+        containerClassName={'pagination justify-content-center mb-5 pb-5 fixed-bottom'}
         pageClassName={'page-item'}
         pageLinkClassName={'page-link'}
         previousClassName={'page-item'}
