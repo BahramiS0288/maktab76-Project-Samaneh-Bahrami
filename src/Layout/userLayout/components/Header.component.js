@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import Logo from "./../../../asset/images/istockphoto-1188700274-612x612-removebg-preview.png";
 

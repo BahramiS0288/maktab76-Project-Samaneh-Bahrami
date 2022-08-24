@@ -1,19 +1,172 @@
-import React, { useState } from "react";
+import Q from "q";
+import React, { useState,useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import SparkMD5 from "spark-md5";
 import CkEditor from "./CkEditor";
 
-export default function EditModal({ show, handleClose, handleExit }) {
+export default function EditModal({ show, handleClose,id}) {
   //   const handleClose = () => setShow(false);
+  const[product,setProduct] = useState([])
+  const [category,setCategory]=useState([])
+  const [imageProduct,setImageProduct]=useState([])
+ 
+  const [data,setData]=useState({name:"",subgroupname:"", price:"" ,groupname:"" , count:"" ,describtion:"" ,image:[],thumbnail:"" , 
+creatAt:"" , id:""})
+
+  const{subgroupname,groupname,name,image,describtion}=product
 
   let loadFile = (event) => {
     let image = document.getElementById("output");
     image.src = URL.createObjectURL(event.target.files[0]);
+    calculate()
+    fetch(`http://localhost:3002/products/${id}`,{
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
+                }).then((data) => console.log(data))
+
   };
+
+  function calculateMD5Hash(file, bufferSize) {
+    let def = Q.defer()
+
+    let fileReader = new FileReader();
+    let fileSlicer = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+    let hashAlgorithm = new SparkMD5();
+    let totalParts = Math.ceil(file.size / bufferSize);
+    let currentPart = 0;
+    let startTime = new Date().getTime();
+
+    fileReader.onload = function (e) {
+        currentPart += 1;
+
+        def.notify({
+            currentPart: currentPart,
+            totalParts: totalParts
+        });
+
+        let buffer = e.target.result;
+        hashAlgorithm.appendBinary(buffer);
+
+        if (currentPart < totalParts) {
+            processNextPart();
+            return;
+        }
+
+        def.resolve({
+            hashResult: hashAlgorithm.end(),
+            duration: new Date().getTime() - startTime
+        });};
+
+        fileReader.onerror = function (e) {
+            def.reject(e);
+        };
+
+        function processNextPart() {
+            let start = currentPart * bufferSize;
+            let end = Math.min(start + bufferSize, file.size);
+            fileReader.readAsBinaryString(fileSlicer.call(file, start, end));
+            
+        }
+
+        processNextPart();
+        return def.promise;
+    }
+
+    function calculate() {
+        let input = document.getElementById('file');
+        if (!input.files.length) {
+            return;
+        }let file = input.files[0];
+        let bufferSize = Math.pow(1024, 2) * 10; // 10MB
+
+        calculateMD5Hash(file, bufferSize).then(
+            function (result) {
+                // Success
+                
+                
+                setImageProduct([...imageProduct,result.hashResult])
+                
+
+                // SEND result TO THE SERVER
+
+            },
+            function (err) {
+                // There was an error,
+            });
+    }
+
+  useEffect(()=>{
+    const getProduct = async () => {
+        const res = await fetch(
+          `http://localhost:3002/products/${id}`
+        );
+        const data = await res.json();
+        setProduct(data);
+        setData({name:data.name,subgroupname:data.subgroupname ,price:data.price ,groupname:data.groupname,count:data.count,describtion:data.describtion ,image:data.image,thumbnail:data.thumbnail, creatAt:data.creatAt,id:data.id})
+        setImageProduct(data.image)
+      };
+
+      const getProductGroup = async () => {
+        const res = await fetch(
+          `http://localhost:3002/products`
+        );
+        const data = await res.json();
+        setCategory(data);
+        
+      };
+  
+      getProduct();
+      getProductGroup();
+      
+      
+  },[])
+
+  const handleChange=async({target})=>{
+    let categoryArr=target.value.split('/');
+    
+      let category=categoryArr[0]
+      
+      
+    
+    
+      let subCtegory = categoryArr[1]
+      
+    await setData({
+      ...data,"groupname":category,"subgroupname":subCtegory
+    })
+    
+    
+   
+  }
+  const handleChangeData = async (key, value) => {
+    await setData({
+            ...data, [key]: value
+        }
+    )
+}
+
+const handleSave =async() =>{
+  await fetch(`http://localhost:3002/products/${id}`,{
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+}
+
+const removePicture=(picture)=>{
+  console.log(picture);
+  const pictures =imageProduct.filter((item) => item !== picture)
+  setImageProduct(pictures)
+}
 
   return (
     <>
+    {
+        console.log(data)
+    }
       <Button variant="primary" onClick={show}>
         Launch demo modal
       </Button>
@@ -32,25 +185,38 @@ export default function EditModal({ show, handleClose, handleExit }) {
                 تصویر کالا
               </Form.Label>
               <Form.Control
+              
                 type="file"
-                placeholder="name@example.com"
                 dir="ltr"
                 accept="image/*"
                 onChange={(event) => loadFile(event)}
                 autoFocus
                 className="custom-file-input"
-                id="validatedCustomFile"
+                id="file"
                 required
               />
               <div class="invalid-feedback">عکس انتخاب کنید</div>
+              <div className="d-flex">
+                {imageProduct.map((item) =>{
+                    return(
+                      <>
+                       <i class="bi bi-x" onClick={()=>removePicture(item)}></i>
+                      <img src={`http://localhost:3002/files/${item}`} style={{ width: "50px",height:"50px" ,marginTop:"15px"}}
+                    className="rounded-circle" alt=""/>
+                      </>
+                     
+                    ) 
+                })}
+              
               <p>
                 <img
                   id="output"
                   alt=""
-                  style={{ width: "200px" }}
+                  style={{ width: "100px" ,height:"50px",marginTop:"15px"}}
                   className="rounded-circle"
                 />
               </p>
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -62,11 +228,11 @@ export default function EditModal({ show, handleClose, handleExit }) {
               </Form.Label>
               <Form.Control
                 type="text"
-                accept="image/*"
-                onChange={(event) => loadFile(event)}
                 autoFocus
                 className="custom-file-input"
+                defaultValue={name}
                 id="validatedCustomFile"
+                onChange={(e)=>handleChangeData("name",e.target.value)}
                 required
               />
               <div class="invalid-feedback"> نام کالا را وارد کنید</div>
@@ -81,11 +247,12 @@ export default function EditModal({ show, handleClose, handleExit }) {
             >
               <Form.Label>دسته بندی</Form.Label>
               <br />
-              <select className="custom-select rounded col-12" required>
-                <option value="">انتخاب کنید</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select className="custom-select rounded col-12" required onChange={(e)=>handleChange(e)}>
+                <option value={`${groupname}/${subgroupname}`}> {groupname}/{subgroupname}</option>
+                {category.map((item) =>{
+                    const{subgroupname,groupname}=item;
+                    return <option value={`${groupname}/${subgroupname}`}>{groupname}/{subgroupname}</option>
+                })}
               </select>
               <div class="invalid-feedback">دسته بندی رو مشخص کنید</div>
               <br />
@@ -99,16 +266,16 @@ export default function EditModal({ show, handleClose, handleExit }) {
               >
                 توضیحات
               </Form.Label>
-              <CkEditor />
+              <CkEditor describtion={describtion} handleChangeData={handleChangeData}/>
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer dir="ltr">
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            لغو
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="primary" onClick={handleSave}>
+            ذخیره تغییرات
           </Button>
         </Modal.Footer>
       </Modal>
