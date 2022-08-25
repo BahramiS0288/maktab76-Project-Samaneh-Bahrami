@@ -41,7 +41,7 @@ const ProductGroupTable = () => {
   const [idEdite, setIdEdite] = useState(0);
   const[thumbnailThis ,setThumbnailThis]=useState('')
 
-  const limit = 5;
+  const limit = 4;
 
   useEffect(() => {
     const getOrder = async () => {
@@ -91,7 +91,7 @@ const ProductGroupTable = () => {
 
   }
 
-  const closeHandler = async (e) => {
+  const deleteHandler = async (e) => {
     const res = await fetch(`http://localhost:3002/products/${idDelete}`, {
       method: "DELETE",
     });
@@ -111,6 +111,8 @@ const ProductGroupTable = () => {
     
   };
 
+  
+
   return (
     <>
       {showModalEdite && (
@@ -125,7 +127,7 @@ const ProductGroupTable = () => {
         <SaveModal
           show={isModalOpen}
           handleClose={() => setIsModalOpen(false)}
-          handleExit={closeHandler}
+          handleDelete={deleteHandler}
         />
       )}
 
@@ -159,7 +161,7 @@ const ProductGroupTable = () => {
                 </td>
                 <td>{name}</td>
                 <td>{groupname}</td>
-                <td>
+                <td className="d-flex">
                   <i
                     className="bi bi-trash3 mx-2 text-primary"
                     onClick={() => handleDeleteIcon(id)}

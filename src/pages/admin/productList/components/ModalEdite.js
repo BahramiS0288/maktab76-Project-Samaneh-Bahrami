@@ -154,6 +154,10 @@ const handleSave =async() =>{
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   })
+
+
+
+  handleClose()
 }
 
 const removePicture=(picture)=>{

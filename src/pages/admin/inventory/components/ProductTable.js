@@ -29,6 +29,7 @@ const ProductTable = () => {
   const [priceEdite, setPriceEdite] = useState(0);
 
   const inputPriceRef = useRef([]);
+  let allIndexClicked =[]
 
   const limit = 4;
 
@@ -68,7 +69,7 @@ const ProductTable = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ price: e.target.value }),
-    });
+    })
   };
 
   const handleChangeCount = async (e, id) => {
@@ -81,6 +82,13 @@ const ProductTable = () => {
       body: JSON.stringify({ count: e.target.value }),
     });
   };
+
+  const handleChangToInpotPrice =(index)=>{
+    setIdEditPrice(index)
+    allIndexClicked.push(index)
+    
+    
+  }
 
   return (
     <>
@@ -100,7 +108,7 @@ const ProductTable = () => {
                 <td>{name}</td>
 
                 <td>
-                  {idEditPrice === index ? (
+                  {idEditPrice === index  ? (
                     <input
                       id="price"
                       type="text"
@@ -108,10 +116,10 @@ const ProductTable = () => {
                       onChange={(event) => handleChangePrice(event, id)}
                     />
                   ) : (
-                    <p onClick={() => setIdEditPrice(index)}>{Number(price).toLocaleString()} ریال</p>
+                    <p onClick={() => handleChangToInpotPrice(index)}>{Number(price).toLocaleString()} ریال</p>
                   )}
                 </td>
-
+                
                 <td>
                   {idEditCount === index ? (
                     <input
