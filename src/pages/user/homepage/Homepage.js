@@ -1,9 +1,9 @@
-import  Slider  from "./component/Slider";
-
+import  Header  from "./component/Header";
+import ProductCategories from "./component/ProductCategories"
 
 export function Homepage(){
     return<>
-      <Slider />
-      <p style={{height:"500px"}}>card will be here</p>
+      <Header />
+      <ProductCategories />
     </>
 }
