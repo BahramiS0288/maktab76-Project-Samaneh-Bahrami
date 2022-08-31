@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { display } from "@mui/system";
 
 const TableStyle = styled.table`
   border-collapse: collapse;
@@ -21,12 +22,12 @@ const TableStyle = styled.table`
   }
 `;
 
-const ProductTable = () => {
+const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
   const [products, setProducts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [idEditPrice, setIdEditPrice] = useState(-1);
   const [idEditCount, setIdEditCount] = useState(-1);
-  const [priceEdite, setPriceEdite] = useState(0);
+  const [priceEdite, setPriceEdite] = useState(false);
 
   const inputPriceRef = useRef([]);
   let allIndexClicked =[]
@@ -46,6 +47,23 @@ const ProductTable = () => {
 
     getOrder();
   }, []);
+
+  useEffect(() => {
+    const getOrder = async () => {
+      const res = await fetch(
+        `http://localhost:3002/products?_page=1&_limit=${limit}`
+      );
+      const data = await res.json();
+      const total = res.headers.get("x-total-count");
+      setPageCount(total / limit);
+      setProducts(data);
+    };
+
+    getOrder();
+    setIdEditPrice(-1)
+    setIdEditCount(-1)
+    setRefresh()
+  }, [refresh]);
 
   const fetchOrder = async (currentPage) => {
     const res = await fetch(
@@ -85,6 +103,7 @@ const ProductTable = () => {
 
   const handleChangToInpotPrice =(index)=>{
     setIdEditPrice(index)
+    // setIsPriceChange()
     allIndexClicked.push(index)
     
     
@@ -106,8 +125,9 @@ const ProductTable = () => {
             return (
               <tr key={id}>
                 <td>{name}</td>
-
                 <td>
+                  {/* <p onClick={()=>setPriceEdite(true)} className={priceEdite ? "d-none" : "d-block"}>{price}</p>
+                  <input type="text" className={priceEdite ? "d-block" : "d-none"}/> */}
                   {idEditPrice === index  ? (
                     <input
                       id="price"

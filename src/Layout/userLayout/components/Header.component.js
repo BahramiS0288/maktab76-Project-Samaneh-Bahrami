@@ -50,8 +50,8 @@ export function Header() {
   // );
 
   return(
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light " >
+            <div class="container px-4 px-lg-5 ">
             <a className="navbar-brand" href="/">
         <Image  src={Logo} alt="" style={{height:"56px"}} />
         </a>

@@ -1,10 +1,11 @@
 import React from 'react'
 
-function BuutonEditeProduct() {
+function BuutonEditeProduct({setRefresh}) {
 
     const handleClick =(e) =>{
         e.preventDefault();
-        window.location.reload(true);
+        setRefresh()
+       
     }
 
   return (

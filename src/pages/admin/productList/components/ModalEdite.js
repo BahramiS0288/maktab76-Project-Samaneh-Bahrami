@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import SparkMD5 from "spark-md5";
 import CkEditor from "./CkEditor";
 
-export default function EditModal({ show, handleClose,id}) {
+export default function EditModal({ show, handleClose,id,setRefresh}) {
   //   const handleClose = () => setShow(false);
   const[product,setProduct] = useState([])
   const [category,setCategory]=useState([])
@@ -124,6 +124,8 @@ creatAt:"" , id:""})
       
   },[])
 
+ 
+
   const handleChange=async({target})=>{
     let categoryArr=target.value.split('/');
     
@@ -156,7 +158,7 @@ const handleSave =async() =>{
   })
 
 
-
+  setRefresh()
   handleClose()
 }
 
@@ -168,9 +170,7 @@ const removePicture=(picture)=>{
 
   return (
     <>
-    {
-        console.log(data)
-    }
+    
       <Button variant="primary" onClick={show}>
         Launch demo modal
       </Button>

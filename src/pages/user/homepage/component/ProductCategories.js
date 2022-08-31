@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
+import {useNavigate} from "react-router-dom"
 
 const ProductCategories = () => {
     const[category,setCategory]=useState([])
-    
-let arr=[]
+    const navigate = useNavigate()
+
 
   
 
@@ -23,11 +24,10 @@ let arr=[]
     <div>
       {
 category.map((item) => {
-    const{groupname} = item
-    arr.push(groupname)
+    const{groupname,iDgroupname} = item
     
     return <>
-        <a href="" className='text-decoration-none'> <h1 class="display-1 mx-5 mt-3">{groupname}</h1></a>
+         <h1 class="display-1 mx-5 mt-3 primary" onClick={() =>navigate(`/category/${iDgroupname}`)}>{groupname}</h1>
         <ProductCard nameGroup={groupname} />
     </>
     

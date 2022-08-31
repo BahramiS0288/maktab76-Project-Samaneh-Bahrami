@@ -31,7 +31,7 @@ const TableStyle = styled.table`
   }
 `;
 
-const ProductGroupTable = () => {
+const ProductGroupTable = ({addedProduct}) => {
   const [products, setProducts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,6 +40,7 @@ const ProductGroupTable = () => {
   const [idDelete, setIdDelete] = useState(0);
   const [idEdite, setIdEdite] = useState(0);
   const[thumbnailThis ,setThumbnailThis]=useState('')
+  const[refresh,setRefresh]=useState(false)
 
   const limit = 4;
 
@@ -56,6 +57,34 @@ const ProductGroupTable = () => {
 
     getOrder();
   }, []);
+
+  useEffect(() => {
+    const getOrder = async () => {
+      const res = await fetch(
+        `http://localhost:3002/products?_page=1&_limit=${limit}`
+      );
+      const data = await res.json();
+      const total = res.headers.get("x-total-count");
+      setPageCount(total / limit);
+      setProducts(data);
+    };
+
+    getOrder();
+  }, [refresh]);
+
+  useEffect(() => {
+    const getOrder = async () => {
+      const res = await fetch(
+        `http://localhost:3002/products?_page=1&_limit=${limit}`
+      );
+      const data = await res.json();
+      const total = res.headers.get("x-total-count");
+      setPageCount(total / limit);
+      setProducts(data);
+    };
+
+    getOrder();
+  }, [addedProduct]);
 
   const fetchOrder = async (currentPage) => {
     const res = await fetch(
@@ -96,16 +125,17 @@ const ProductGroupTable = () => {
       method: "DELETE",
     });
     // const data = await res.json();
-    const getOrder = async () => {
-      const res = await fetch(
-        `http://localhost:3002/products?_page=1&_limit=${limit}`
-      );
-      const data = await res.json();
-      const total = res.headers.get("x-total-count");
-      setPageCount(total / limit);
-      setProducts(data);
-    };
-    getOrder()
+    // const getOrder = async () => {
+    //   const res = await fetch(
+    //     `http://localhost:3002/products?_page=1&_limit=${limit}`
+    //   );
+    //   const data = await res.json();
+    //   const total = res.headers.get("x-total-count");
+    //   setPageCount(total / limit);
+    //   setProducts(data);
+    // };
+    // getOrder()
+    setRefresh(true)
     setIsModalOpen(false)
     e.stopPropagation();
     
@@ -120,6 +150,7 @@ const ProductGroupTable = () => {
           show={showModalEdite}
           handleClose={() => setShowModalEdite(false)}
           id={idEdite}
+          setRefresh={()=>setRefresh(true)}
         />
       )}
 

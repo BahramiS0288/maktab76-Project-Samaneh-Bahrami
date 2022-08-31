@@ -1,7 +1,11 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import {Form , Field} from "formik"
+import { useNavigate } from 'react-router-dom';
+import  AuthContext from "./AuthProvider"
 
 const FormLogin = ({errors,touched}) => {
+  const {setAuth} =useContext(AuthContext)
+  const navigate = useNavigate();
   return (
     <Form >
     <section className="vh-100 gradient-custom">
@@ -28,7 +32,7 @@ const FormLogin = ({errors,touched}) => {
               </div>
 
 
-              <button className="btn btn-outline-light btn-lg px-5" type="submit">ورود</button>
+              <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={()=> navigate('/admin/product')}>ورود</button>
 
               
 

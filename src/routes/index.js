@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserLayout } from "../Layout/userLayout/User.layout";
 import { Homepage } from "../pages/user/homepage/Homepage";
-import { Category } from "../pages/user/Category/Category.page";
+import  Category from "../pages/user/Category/Category";
 import { Oncheckout } from "../pages/user/onCheackout/Oncheckout.page";
 import { PaymentResault } from "../pages/user/PaymentResault/PaymentResault.page";
 import { ProductOverview } from "../pages/user/productOverview/ProductOverview.page";
@@ -13,6 +13,7 @@ import { ProductList } from "../pages/admin/productList/ProductList.page";
 import Login from './../pages/login/Login'
 import Error404 from "../pages/errors/Error404";
 import React from "react";
+import CategoryDetails from "../pages/user/Category/components/CategoryDetails";
 
 export function AppRoutes() {
   return (
@@ -21,9 +22,10 @@ export function AppRoutes() {
         <Route element={<UserLayout />}>
           <Route path="/" element={<Homepage />}/>
           <Route path="/category" element={<Category />} />
+          <Route path="/category/:categoryId" element={<CategoryDetails />} />
           <Route path="/oncheckout" element={<Oncheckout />} />
           <Route path="/paymentResault" element={<PaymentResault />} />
-          <Route path="/productOverview" element={<ProductOverview />} />
+          <Route path="/productOverview/:productOverviewId" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />
         </Route>
         <Route path="/login" element={<Login />} />

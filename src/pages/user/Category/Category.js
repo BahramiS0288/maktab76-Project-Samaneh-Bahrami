@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import {useNavigate} from "react-router-dom"
 
-const ProductCard = ({ nameGroup }) => {
+const Category = ({nameGroup}) => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItem = () => {
-      fetch(`http://localhost:3002/products?groupname=${nameGroup}&?_page=1&_limit=4`)
+      fetch(`http://localhost:3002/products?groupname=${nameGroup}`)
         .then((res) => res.json())
         .then((data) => setProducts(data));
     };
     fetchItem();
   }, []);
 
-  //<div>{console.log(products)}</div>;
+
   return (
     <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
       {products.map((item) => {
-        const { price, name, thumbnail,id } = item;
+        const {id, price, name, thumbnail ,describtion} = item;
         return (
           <div class="col mb-5" onClick={() =>navigate(`/productOverview/${id}`)}>
                         <div class="card h-100">
@@ -46,7 +46,7 @@ const ProductCard = ({ nameGroup }) => {
      </div>
             </div>
         </section>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default Category
