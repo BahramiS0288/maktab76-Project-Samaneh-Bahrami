@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import styled from 'styled-components'
-import Modal from './Modal'
+import Modall from './Modall'
 import ModalTahvil from "./ModalTahvil";
 
 const TableStyle=styled.table` 
@@ -28,17 +28,12 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
 
     let passOrder=[]
  
-    let f =[]
+    let f =''
 
     const handleClick =(id) =>{
         getOrderList(id)
-        console.log(productsOrder);
         
-        if(IsTahvil){
-          setOpenModalTahvil(true)
-        }else{
-          setOpenModal(true)
-        }
+        
         
       }
 
@@ -47,11 +42,18 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
         fetch(
             `http://localhost:3002/orders/${id}`
         ).then((res)=>res.json())
-        .then((data) => {setProductsOrder(data)
-        f=data
-        console.log(f);})
-        
-        
+        .then((data) => {
+        if(data.status){
+          setProductsOrder(data)
+          setOpenModalTahvil(true)
+          
+        }else{
+          setProductsOrder(data)
+          setOpenModal(true)
+          
+          
+        }
+      })
         
     }
 
@@ -74,7 +76,7 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
                 <td>{name}</td>
                 <td>{Number(sumBuying).toLocaleString()} ریال</td>
                 <td>{deliveryTime}</td>
-                <td><a onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</a></td>
+                <td><p onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</p></td>
             </tr>
         }): statusRaidioButton ? productsOrderDeliver.map((order)=>{
           const{id,name,sumBuying,deliveryTime}=order
@@ -82,7 +84,7 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
               <td>{name}</td>
               <td>{sumBuying}</td>
               <td>{deliveryTime}</td>
-              <td><a onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</a></td>
+              <td><p onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</p></td>
           </tr>
       }) : productsOrderNotDeliver.map((order)=>{
         const{id,name,sumBuying,deliveryTime}=order
@@ -90,17 +92,18 @@ const Tablee = ({productsOrderNotDeliver,IsTahvil,productsOrderDeliver,deliver,N
             <td>{name}</td>
             <td>{sumBuying}</td>
             <td>{deliveryTime}</td>
-            <td><a onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</a></td>
+            <td><p onClick={()=>handleClick(id)} style={{color:"blue"}}>وضعیت تحویل</p></td>
         </tr>
     })
         }
         {
-          openModal && deliver && <Modal changeModal={setOpenModal}
+          openModal &&  <Modall showmodal={openModal} handleClose={()=>setOpenModal(false)}
+          productsOrder={productsOrder} 
             IsTahvil={IsTahvil} passOrder={passOrder}
             />
         }
         {
-          openModalTahvil && NotDeliver && <ModalTahvil changeModalTahvil={setOpenModalTahvil}
+          openModalTahvil && <ModalTahvil handleClose={()=>setOpenModalTahvil(false)} showmodal={openModalTahvil} productsOrder={productsOrder} changeModalTahvil={setOpenModalTahvil}
             IsTahvil={IsTahvil} passOrder={passOrder}
             />
         }
