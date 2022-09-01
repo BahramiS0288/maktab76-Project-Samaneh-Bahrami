@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { display } from "@mui/system";
+import { EditText } from 'react-edit-text';
+
 
 const TableStyle = styled.table`
   border-collapse: collapse;
@@ -109,6 +110,18 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
     
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       <TableStyle>
@@ -150,6 +163,16 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
                   ) : (
                     <p onClick={() => setIdEditCount(index)}>{count}</p>
                   )}
+
+            {/* <EditText
+            name='textbox'
+            style={{ fontSize: '16px', border: '1px solid #ccc' }}
+            value={count}
+            onChange={(e) => handleChange(e, setText,id)}
+              
+              /> */}
+
+                  
                 </td>
               </tr>
             );

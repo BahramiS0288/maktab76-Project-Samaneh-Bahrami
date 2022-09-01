@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function BuutonEditeProduct({setRefresh}) {
 
-    const handleClick =(e) =>{
-        e.preventDefault();
+  useEffect(() => {
+    const keyDownHandler = event => {
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+
+        handleClick();
+      }
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+
+    // return () => {
+    //   document.removeEventListener('keydown', keyDownHandler);
+    // };
+  }, []);
+
+    const handleClick =() =>{
+        // e.preventDefault();
         setRefresh()
        
     }

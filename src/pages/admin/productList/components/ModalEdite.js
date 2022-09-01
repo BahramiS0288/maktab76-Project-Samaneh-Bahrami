@@ -1,3 +1,4 @@
+import axios from "axios";
 import Q from "q";
 import React, { useState,useEffect } from "react";
 import Button from "react-bootstrap/Button";
@@ -16,87 +17,31 @@ export default function EditModal({ show, handleClose,id,setRefresh}) {
 creatAt:"" , id:""})
 
   const{subgroupname,groupname,name,image,describtion}=product
-
+  
   let loadFile = (event) => {
-    let image = document.getElementById("output");
-    image.src = URL.createObjectURL(event.target.files[0]);
-    calculate()
-    fetch(`http://localhost:3002/products/${id}`,{
-                  method: "PATCH",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
-                }).then((data) => console.log(data))
+    // let image = document.getElementById("output");
+    // image.src = URL.createObjectURL(event.target.files[0]);
+
+    const data = new FormData();
+    data.append("image", event.target.files[0]);
+
+    axios
+      .post("http://localhost:3002/upload", data)
+      .then((res) => {
+        setImageProduct([...imageProduct, res.data.filename]);
+        setData({...data,image:imageProduct,thumbnail:res.data.filename})
+      })
+      .catch((error) => console.log(error));
+    
+    // fetch(`http://localhost:3002/products/${id}`,{
+    //               method: "PATCH",
+    //               headers: { "Content-Type": "application/json" },
+    //               body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
+    //             }).then((data) => console.log(data))
 
   };
 
-  function calculateMD5Hash(file, bufferSize) {
-    let def = Q.defer()
-
-    let fileReader = new FileReader();
-    let fileSlicer = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
-    let hashAlgorithm = new SparkMD5();
-    let totalParts = Math.ceil(file.size / bufferSize);
-    let currentPart = 0;
-    let startTime = new Date().getTime();
-
-    fileReader.onload = function (e) {
-        currentPart += 1;
-
-        def.notify({
-            currentPart: currentPart,
-            totalParts: totalParts
-        });
-
-        let buffer = e.target.result;
-        hashAlgorithm.appendBinary(buffer);
-
-        if (currentPart < totalParts) {
-            processNextPart();
-            return;
-        }
-
-        def.resolve({
-            hashResult: hashAlgorithm.end(),
-            duration: new Date().getTime() - startTime
-        });};
-
-        fileReader.onerror = function (e) {
-            def.reject(e);
-        };
-
-        function processNextPart() {
-            let start = currentPart * bufferSize;
-            let end = Math.min(start + bufferSize, file.size);
-            fileReader.readAsBinaryString(fileSlicer.call(file, start, end));
-            
-        }
-
-        processNextPart();
-        return def.promise;
-    }
-
-    function calculate() {
-        let input = document.getElementById('file');
-        if (!input.files.length) {
-            return;
-        }let file = input.files[0];
-        let bufferSize = Math.pow(1024, 2) * 10; // 10MB
-
-        calculateMD5Hash(file, bufferSize).then(
-            function (result) {
-                // Success
-                
-                
-                setImageProduct([...imageProduct,result.hashResult])
-                
-
-                // SEND result TO THE SERVER
-
-            },
-            function (err) {
-                // There was an error,
-            });
-    }
+  
 
   useEffect(()=>{
     const getProduct = async () => {
@@ -212,14 +157,14 @@ const removePicture=(picture)=>{
                     ) 
                 })}
               
-              <p>
+              {/* <p>
                 <img
                   id="output"
                   alt=""
                   style={{ width: "100px" ,height:"50px",marginTop:"15px"}}
                   className="rounded-circle"
                 />
-              </p>
+              </p> */}
               </div>
             </Form.Group>
 
@@ -240,9 +185,9 @@ const removePicture=(picture)=>{
                 required
               />
               <div class="invalid-feedback"> نام کالا را وارد کنید</div>
-              <p>
+              {/* <p>
                 <img id="output" alt="" style={{ width: "200px" }} />
-              </p>
+              </p> */}
             </Form.Group>
 
             <Form.Group

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import SaveModal from "./Modal";
 import EditModal from "./ModalEdite";
@@ -41,8 +42,10 @@ const ProductGroupTable = ({addedProduct}) => {
   const [idEdite, setIdEdite] = useState(0);
   const[thumbnailThis ,setThumbnailThis]=useState('')
   const[refresh,setRefresh]=useState(false)
+  const[idDialog,setIdDialog]=useState(0)
 
   const limit = 4;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -58,19 +61,6 @@ const ProductGroupTable = ({addedProduct}) => {
     getOrder();
   }, []);
 
-  useEffect(() => {
-    const getOrder = async () => {
-      const res = await fetch(
-        `http://localhost:3002/products?_page=1&_limit=${limit}`
-      );
-      const data = await res.json();
-      const total = res.headers.get("x-total-count");
-      setPageCount(total / limit);
-      setProducts(data);
-    };
-
-    getOrder();
-  }, [refresh]);
 
   useEffect(() => {
     const getOrder = async () => {
@@ -84,7 +74,8 @@ const ProductGroupTable = ({addedProduct}) => {
     };
 
     getOrder();
-  }, [addedProduct]);
+    setRefresh(false)
+  }, [addedProduct,refresh]);
 
   const fetchOrder = async (currentPage) => {
     const res = await fetch(
@@ -114,9 +105,10 @@ const ProductGroupTable = ({addedProduct}) => {
     
   };
 
-  const handleShowDialog =(thumbnail) => {
-    setIsShow(!isShow)
+  const handleShowDialog =(thumbnail,id) => {
+    setIsShow(true)
     setThumbnailThis(thumbnail)
+    setIdDialog(id)
 
   }
 
@@ -174,14 +166,13 @@ const ProductGroupTable = ({addedProduct}) => {
         <tbody>
           {products.map((product) => {
             const { id, name, groupname, thumbnail } = product;
-            // console.log(`http://localhost:3002/files/${thumbnail}`);
             return (
               <tr key={id}>
                 <td>
                   <img
                     src={`http://localhost:3002/files/${thumbnail}`}
                     alt=""
-                    onClick={()=>handleShowDialog(thumbnail)}
+                    onClick={()=>handleShowDialog(thumbnail,id)}
                     style={{
                       height: "25px",
                       width: "25px",
@@ -210,7 +201,7 @@ const ProductGroupTable = ({addedProduct}) => {
               isShow && <Dialog style={{ position: "absolute" }}
               open
               onClick={handleShowDialog}>
-               <img src={`http://localhost:3002/files/${thumbnailThis}`} alt=""  onClick={handleShowDialog} 
+               <img src={`http://localhost:3002/files/${thumbnailThis}`} alt=""  onClick={() =>navigate(`/productOverview/${idDialog}`)} 
                style={{
                 height: "412px",
                 width: "550px",
@@ -246,6 +237,4 @@ const ProductGroupTable = ({addedProduct}) => {
 };
 
 export default ProductGroupTable;
-// marginPagesDisplayed={2}
-//         pageRangeDisplayed={2}
-//breakLabel={'...'}
+

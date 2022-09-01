@@ -1,3 +1,4 @@
+import axios from "axios";
 import Q from "q";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -5,8 +6,9 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import SparkMD5 from "spark-md5";
 import CkEditor from "./CkEditor";
+import ProductGroupTable from "./ProductGroupTable";
 
-const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
+const ModalAddProduct = ({ show, handleClose, setAddedProduct }) => {
   const [imageProduct, setImageProduct] = useState([]);
   const [data, setData] = useState({
     name: "",
@@ -22,23 +24,19 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
   });
   const [category, setCategory] = useState([]);
 
-  const handleChange=async({target})=>{
-    let categoryArr=target.value.split('/');
-    
-      let category=categoryArr[0]
-      
-      
-    
-    
-      let subCtegory = categoryArr[1]
-      
+  const handleChange = async ({ target }) => {
+    let categoryArr = target.value.split("/");
+
+    let category = categoryArr[0];
+
+    let subCtegory = categoryArr[1];
+
     await setData({
-      ...data,"groupname":category,"subgroupname":subCtegory
-    })
-    
-    
-   
-  }
+      ...data,
+      groupname: category,
+      subgroupname: subCtegory,
+    });
+  };
 
   useEffect(() => {
     const getProductGroup = async () => {
@@ -47,91 +45,26 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
       setCategory(data);
     };
     getProductGroup();
-  },[]);
+  }, []);
 
   let loadFile = (event) => {
-    let image = document.getElementById("output");
-    image.src = URL.createObjectURL(event.target.files[0]);
-    calculate();
-    // fetch(`http://localhost:3002/products/${id}`,{
-    //               method: "PATCH",
-    //               headers: { "Content-Type": "application/json" },
-    //               body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
-    //             }).then((data) => console.log(data))
+    // let image = document.getElementById("output");
+    // image.src = URL.createObjectURL(event.target.files[0]);
+    const data = new FormData();
+    data.append("image", event.target.files[0]);
+
+    axios
+      .post("http://localhost:3002/upload", data)
+      .then((res) => {
+        setImageProduct([...imageProduct, res.data.filename]);
+        setData({...data,image:imageProduct,thumbnail:res.data.filename})
+      })
+      .catch((error) => console.log(error));
+
+      
   };
 
-  function calculateMD5Hash(file, bufferSize) {
-    let def = Q.defer();
-
-    let fileReader = new FileReader();
-    let fileSlicer =
-      File.prototype.slice ||
-      File.prototype.mozSlice ||
-      File.prototype.webkitSlice;
-    let hashAlgorithm = new SparkMD5();
-    let totalParts = Math.ceil(file.size / bufferSize);
-    let currentPart = 0;
-    let startTime = new Date().getTime();
-
-    fileReader.onload = function (e) {
-      currentPart += 1;
-
-      def.notify({
-        currentPart: currentPart,
-        totalParts: totalParts,
-      });
-
-      let buffer = e.target.result;
-      hashAlgorithm.appendBinary(buffer);
-
-      if (currentPart < totalParts) {
-        processNextPart();
-        return;
-      }
-
-      def.resolve({
-        hashResult: hashAlgorithm.end(),
-        duration: new Date().getTime() - startTime,
-      });
-    };
-
-    fileReader.onerror = function (e) {
-      def.reject(e);
-    };
-
-    function processNextPart() {
-      let start = currentPart * bufferSize;
-      let end = Math.min(start + bufferSize, file.size);
-      fileReader.readAsBinaryString(fileSlicer.call(file, start, end));
-    }
-
-    processNextPart();
-    return def.promise;
-  }
-
-  function calculate() {
-    let input = document.getElementById("file");
-    if (!input.files.length) {
-      return;
-    }
-    let file = input.files[0];
-    let bufferSize = Math.pow(1024, 2) * 10; // 10MB
-
-    calculateMD5Hash(file, bufferSize).then(
-      function (result) {
-        // Success
-
-        setImageProduct([...imageProduct, result.hashResult]);
-
-        // SEND result TO THE SERVER
-      },
-      function (err) {
-        // There was an error,
-      }
-    );
-  }
   const removePicture = (picture) => {
-    console.log(picture);
     const pictures = imageProduct.filter((item) => item !== picture);
     setImageProduct(pictures);
   };
@@ -141,16 +74,19 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
       ...data,
       [key]: value,
     });
+    
   };
 
   const handleSave = async () => {
+    console.log(data.thumbnail);
     await fetch(`http://localhost:3002/products/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    
     setAddedProduct(true);
-    handleClose()
+    handleClose();
   };
 
   return (
@@ -205,8 +141,8 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
                   );
                 })}
 
-                <p>
-                  {/* <i class="bi bi-x" onClick={()=>removePicture(item)}></i> */}
+                {/* <p>
+                  
                   <img
                     id="output"
                     alt=""
@@ -217,7 +153,7 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
                     }}
                     className="rounded-circle"
                   />
-                </p>
+                </p> */}
               </div>
             </Form.Group>
 
@@ -284,7 +220,7 @@ const ModalAddProduct = ({ show, handleClose,setAddedProduct }) => {
             لغو
           </Button>
           <Button variant="primary" onClick={handleSave}>
-           اضافه کردن محصول
+            اضافه کردن محصول
           </Button>
         </Modal.Footer>
       </Modal>
