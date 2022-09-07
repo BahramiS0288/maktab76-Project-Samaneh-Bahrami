@@ -36,7 +36,7 @@ const Login = () => {
       }}
       onSubmit={(value) => {
          handleSubmit(value);
-        console.log(value);
+       
       }}
       validationSchema={Errorschema}
       component={Form}

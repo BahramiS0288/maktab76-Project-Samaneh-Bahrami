@@ -17,7 +17,7 @@ import CategoryDetails from "../pages/user/Category/components/CategoryDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./PrivateRout";
-import Form from "../pages/user/form/FinalForm";
+import Validate from "../pages/user/form/components/Validate";
 
 
 
@@ -31,7 +31,7 @@ export function AppRoutes() {
           <Route path="/category" element={<Category />} />
           <Route path="/category/:categoryId" element={<CategoryDetails />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/cart/form" element={<Form />}/>
+          <Route path="/cart/form" element={<Validate />}/>
           <Route path="/paymentResault" element={<PaymentResault />} />
           <Route path="/productOverview/:productOverviewId" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />

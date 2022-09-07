@@ -34,7 +34,11 @@ const ModalTahvil = ({changeModalTahvil,IsTahvil,passOrder,showmodal,handleClose
 //         </div>
       
 //   )
-
+const option = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  };
 const {id,name,phone,deliveryTime,sumBuying,address,product}=productsOrder
 return (
     <>
@@ -49,7 +53,7 @@ return (
         <p><span className='text-danger'>نام مشتری </span> :{name}</p>
             <p><span className='text-danger'> آدرس </span> :  {address}</p>
             <p><span className='text-danger'> تلفن </span> : {phone}</p>
-            <p><span className='text-danger'>زمان سفارش </span> : {deliveryTime}</p>
+            <p><span className='text-danger'>زمان سفارش </span> : {`${new Date(deliveryTime).toLocaleString("fa-IR", option)}`}</p>
             <table class="table">
               <thead>
                 <tr>

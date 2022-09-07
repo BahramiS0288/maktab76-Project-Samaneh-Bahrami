@@ -1,9 +1,12 @@
 import React from 'react'
 import { Formik } from "formik";
-import Form from "./components/FormLogin";
+import FinalForm from '../FinalForm';
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
 
 const validate = () => {
+  const item = useSelector((state) => state.cart.cartItem)
+
     const Errorschema = Yup.object().shape({
         firstName: Yup.string()
           .required("نام را وارد کنید")
@@ -18,17 +21,34 @@ const validate = () => {
           /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
           "نامعتبر"
         )
-        .required("Required"),
+        .required("شماره همراه را وارد کنید"),
         email: Yup.string().email("نامعتبر").required("ایمیل را وارد کنید"),
         address: Yup.string()
         .min(5, "خیلی کوتاه")
         .max(100, "خیلی بلند")
         .required("آدرس را وارد کنید"),
+        deliverd :Yup.date().label("تاریخ تحویل").required("تاریخ تحویل را وارد کنید"),
       });
 
-      const handleSubmit =() =>{
 
-      }
+     
+
+      let order = {"id":0,
+      "name": "",
+      "phone": "",
+      "deliveryTime": "",
+      "sumBuying": "",
+      "tahvil": "",
+      "status": true,
+      "address": "",
+      "product": []}
+
+      const handleSubmit =  (value) => {
+        // e.preventDefault();
+        console.log(item);
+
+
+      };
 
   return (
     <Formik
@@ -40,12 +60,12 @@ const validate = () => {
         deliverd :"",
         address :""
       }}
-      onSubmit={(value) => {
-         handleSubmit(value);
-        console.log(value);
-      }}
+      onSubmit={(value,{resetForm}) => {
+        handleSubmit(value);
+        resetForm()
+     }}
       validationSchema={Errorschema}
-      component={Form}
+      component={FinalForm}
     />
   )
 }
