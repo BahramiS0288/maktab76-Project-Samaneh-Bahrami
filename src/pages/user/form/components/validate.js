@@ -2,11 +2,14 @@ import React from 'react'
 import { Formik } from "formik";
 import FinalForm from '../FinalForm';
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector , useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {personOrder} from "../../cart/feature/cartSlice"
 
-const validate = () => {
-  const item = useSelector((state) => state.cart.cartItem)
-
+const Validate = () => {
+  const item = useSelector(state => state.cart.cartItem)
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
     const Errorschema = Yup.object().shape({
         firstName: Yup.string()
           .required("نام را وارد کنید")
@@ -33,7 +36,7 @@ const validate = () => {
 
      
 
-      let order = {"id":0,
+      let order = {"id":null,
       "name": "",
       "phone": "",
       "deliveryTime": "",
@@ -44,8 +47,14 @@ const validate = () => {
       "product": []}
 
       const handleSubmit =  (value) => {
+        const {firstName,lastName,phone,email,deliverd,address}=value
         // e.preventDefault();
-        console.log(item);
+         order = {...order,id:Math.floor(Math.random() * 100),name:`${firstName} ${lastName}`,
+         phone:phone ,deliveryTime:deliverd, address:address
+         ,product:[...item]}
+        // console.log(order);
+        dispatch(personOrder(order))
+        //navigate("/http://localhost:3001")
 
 
       };
@@ -70,7 +79,7 @@ const validate = () => {
   )
 }
 
-export default validate
+export default Validate
 
 
 

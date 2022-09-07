@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./PrivateRout";
 import Validate from "../pages/user/form/components/Validate";
-
+import Peyment from '../pages/user/form/components/Peyment'
 
 
 export function AppRoutes() {
@@ -32,6 +32,7 @@ export function AppRoutes() {
           <Route path="/category/:categoryId" element={<CategoryDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/cart/form" element={<Validate />}/>
+          <Route path="/cart/form/:query" element={<Peyment />}/>
           <Route path="/paymentResault" element={<PaymentResault />} />
           <Route path="/productOverview/:productOverviewId" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />
