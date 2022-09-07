@@ -1,14 +1,11 @@
 import axios from "axios";
-import Q from "q";
 import React, { useState,useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import SparkMD5 from "spark-md5";
 import CkEditor from "./CkEditor";
 
 export default function EditModal({ show, handleClose,id,setRefresh}) {
-  //   const handleClose = () => setShow(false);
   const[product,setProduct] = useState([])
   const [category,setCategory]=useState([])
   const [imageProduct,setImageProduct]=useState([])
@@ -29,15 +26,15 @@ creatAt:"" , id:""})
       .post("http://localhost:3002/upload", data)
       .then((res) => {
         setImageProduct([...imageProduct, res.data.filename]);
-        setData({...data,image:imageProduct,thumbnail:res.data.filename})
+        setData({...data,image:[...imageProduct],thumbnail:res.data.filename})
       })
       .catch((error) => console.log(error));
     
-    // fetch(`http://localhost:3002/products/${id}`,{
-    //               method: "PATCH",
-    //               headers: { "Content-Type": "application/json" },
-    //               body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
-    //             }).then((data) => console.log(data))
+    fetch(`http://localhost:3002/products/${id}`,{
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({image:imageProduct}).then((res)=> res.json())
+                }).then((data) => console.log(data))
 
   };
 
@@ -89,6 +86,7 @@ creatAt:"" , id:""})
    
   }
   const handleChangeData = async (key, value) => {
+    // console.log(data)
     await setData({
             ...data, [key]: value
         }
@@ -96,26 +94,25 @@ creatAt:"" , id:""})
 }
 
 const handleSave =async() =>{
+  // console.log(data);
   await fetch(`http://localhost:3002/products/${id}`,{
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   })
-
-
   setRefresh()
   handleClose()
 }
 
 const removePicture=(picture)=>{
-  console.log(picture);
+  // console.log(picture);
   const pictures =imageProduct.filter((item) => item !== picture)
   setImageProduct(pictures)
 }
 
   return (
     <>
-    
+    {console.log(data)}
       <Button variant="primary" onClick={show}>
         Launch demo modal
       </Button>

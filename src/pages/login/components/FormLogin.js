@@ -32,7 +32,7 @@ const FormLogin = ({errors,touched}) => {
               </div>
 
 
-              <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={()=> navigate('/admin/product')}>ورود</button>
+              <button className="btn btn-outline-light btn-lg px-5" type="submit" >ورود</button>
 
               
 

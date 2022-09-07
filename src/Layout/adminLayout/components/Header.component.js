@@ -63,7 +63,7 @@ export function Header(){
                 </Right>
             <Center>
                 <Nav>
-                    <NavLink to='/admin/product'>کالاها</NavLink>
+                    <NavLink to='/login/product'>کالاها</NavLink>
                     <NavLink to='/admin/inventory'>موجودی و قیمت ها</NavLink>
                     <NavLink to='/admin/order'>سفارش ها</NavLink>
                 </Nav>

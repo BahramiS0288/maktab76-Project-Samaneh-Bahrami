@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserLayout } from "../Layout/userLayout/User.layout";
 import { Homepage } from "../pages/user/homepage/Homepage";
 import  Category from "../pages/user/Category/Category";
-import { Oncheckout } from "../pages/user/onCheackout/Oncheckout.page";
+import Cart from "../pages/user/cart/Cart"
 import { PaymentResault } from "../pages/user/PaymentResault/PaymentResault.page";
 import { ProductOverview } from "../pages/user/productOverview/ProductOverview.page";
 import { BasketPage } from "../pages/user/basketpage/BasketPage";
@@ -14,23 +14,31 @@ import Login from './../pages/login/Login'
 import Error404 from "../pages/errors/Error404";
 import React from "react";
 import CategoryDetails from "../pages/user/Category/components/CategoryDetails";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./PrivateRout";
+import Form from "../pages/user/form/Form";
+
+
 
 export function AppRoutes() {
   return (
     <BrowserRouter>
+    <ToastContainer />
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Homepage />}/>
           <Route path="/category" element={<Category />} />
           <Route path="/category/:categoryId" element={<CategoryDetails />} />
-          <Route path="/oncheckout" element={<Oncheckout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart/form" element={<Form />}/>
           <Route path="/paymentResault" element={<PaymentResault />} />
           <Route path="/productOverview/:productOverviewId" element={<ProductOverview />} />
           <Route path="/basketPage" element={<BasketPage />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route element={<AdminLayout />}>
-          <Route path="/admin/product" element={<ProductList />} />
+          <Route path="/login/product" element={<PrivateRoute><ProductList /></PrivateRoute>} />
           <Route path="/admin/inventory" element={<Inventory />} />
           <Route path="/admin/order" element={<Order />} />
         </Route>

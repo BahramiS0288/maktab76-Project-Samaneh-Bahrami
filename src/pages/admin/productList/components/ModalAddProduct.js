@@ -15,7 +15,7 @@ const ModalAddProduct = ({ show, handleClose, setAddedProduct }) => {
     subgroupname: "",
     price: "",
     groupname: "",
-    count: "",
+    count: 0,
     describtion: "",
     image: [],
     thumbnail: "",
@@ -39,7 +39,11 @@ const ModalAddProduct = ({ show, handleClose, setAddedProduct }) => {
   };
 
   useEffect(() => {
-    const getProductGroup = async () => {
+
+    const getProductGroup =
+      // axios.get(`http://localhost:3002/products`)
+      // .then(res => setCategory(res.data))
+    async () => {
       const res = await fetch(`http://localhost:3002/products`);
       const data = await res.json();
       setCategory(data);

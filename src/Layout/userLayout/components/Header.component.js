@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "./../../../asset/images/istockphoto-1188700274-612x612-removebg-preview.png";
 
@@ -7,47 +9,8 @@ const Image = styled.img`
 `;
 
 export function Header() {
-  // return (
-  //   <nav className="navbar navbar-expand-lg navbar-light bg-light container px-4 px-lg5" dir="rtl">
-  //     <div className="col-10 d-flex">
-        // <a className="navbar-brand" href="/">
-        // <Image  src={Logo} alt=""  />
-        // </a>
-        
-  //       <a className="navbar-brand mt-4" href="/">
-  //         <h4>الکترونیک کالا</h4>
-  //       </a>
-  //     </div>
-  //     <button
-  //       className="navbar-toggler"
-  //       type="button"
-  //       data-toggle="collapse"
-  //       data-target="#navbarNav"
-  //       aria-controls="navbarNav"
-  //       aria-expanded="false"
-  //       aria-label="Toggle navigation"
-  //     >
-  //       <span className="navbar-toggler-icon"></span>
-  //     </button>
-  //     <div className="collapse navbar-collapse col-2" id="navbarNav">
-  //       <ul className="navbar-nav ">
-  //         <li className="nav-item active">
-  //           <a className="nav-link" href="/admin">
-  //             مدیریت <span className="sr-only"></span>
-  //           </a>
-  //         </li>
-  //         <li className="nav-item">
-  //           <div className="d-flex">
-  //             <a className="nav-link" href="#">
-  //               سبد خرید
-  //             </a>
-  //             <i class="bi bi-basket-fill mt-2"></i>
-  //           </div>
-  //         </li>
-  //       </ul>
-  //     </div>
-  //   </nav>
-  // );
+    const cartTotalQuantity = useSelector((state) => state.cart.cartTotalQuantity);
+    const navigate = useNavigate()
 
   return(
     <nav class="navbar navbar-expand-lg navbar-light bg-light " >
@@ -73,10 +36,10 @@ export function Header() {
                         </li> */}
                     </ul>
                     <form class="d-flex" dir="ltr">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <button class="btn btn-outline-dark" type="submit" onClick={() => navigate("/cart")}>
                             <i class="bi-cart-fill me-1"></i>
                             سبدخرید
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{cartTotalQuantity}</span>
                         </button>
                     </form>
                 </div>

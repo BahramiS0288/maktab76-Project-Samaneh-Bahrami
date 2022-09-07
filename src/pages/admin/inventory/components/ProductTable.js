@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { EditText } from 'react-edit-text';
-
+import { EditText } from "react-edit-text";
 
 const TableStyle = styled.table`
   border-collapse: collapse;
@@ -23,7 +22,12 @@ const TableStyle = styled.table`
   }
 `;
 
-const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
+const ProductTable = ({
+  refresh,
+  setRefresh,
+  setIsPriceChange,
+  isPriceChange,
+}) => {
   const [products, setProducts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [idEditPrice, setIdEditPrice] = useState(-1);
@@ -31,7 +35,7 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
   const [priceEdite, setPriceEdite] = useState(false);
 
   const inputPriceRef = useRef([]);
-  let allIndexClicked =[]
+  let allIndexClicked = [];
 
   const limit = 4;
 
@@ -61,9 +65,9 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
     };
 
     getOrder();
-    setIdEditPrice(-1)
-    setIdEditCount(-1)
-    setRefresh()
+    setIdEditPrice(-1);
+    setIdEditCount(-1);
+    setRefresh();
   }, [refresh]);
 
   const fetchOrder = async (currentPage) => {
@@ -88,7 +92,7 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ price: e.target.value }),
-    })
+    });
   };
 
   const handleChangeCount = async (e, id) => {
@@ -102,25 +106,11 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
     });
   };
 
-  const handleChangToInpotPrice =(index)=>{
-    setIdEditPrice(index)
+  const handleChangToInpotPrice = (index) => {
+    setIdEditPrice(index);
     // setIsPriceChange()
-    allIndexClicked.push(index)
-    
-    
-  }
-
-
-
-
-
-
-
-
-
-
-
-
+    allIndexClicked.push(index);
+  };
 
   return (
     <>
@@ -141,7 +131,7 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
                 <td>
                   {/* <p onClick={()=>setPriceEdite(true)} className={priceEdite ? "d-none" : "d-block"}>{price}</p>
                   <input type="text" className={priceEdite ? "d-block" : "d-none"}/> */}
-                  {idEditPrice === index  ? (
+                  {idEditPrice === index ? (
                     <input
                       id="price"
                       type="text"
@@ -149,10 +139,12 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
                       onChange={(event) => handleChangePrice(event, id)}
                     />
                   ) : (
-                    <p onClick={() => handleChangToInpotPrice(index)}>{Number(price).toLocaleString()} ریال</p>
+                    <p onClick={() => handleChangToInpotPrice(index)}>
+                      {Number(price).toLocaleString()} ریال
+                    </p>
                   )}
                 </td>
-                
+
                 <td>
                   {idEditCount === index ? (
                     <input
@@ -164,15 +156,13 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
                     <p onClick={() => setIdEditCount(index)}>{count}</p>
                   )}
 
-            {/* <EditText
+                  {/* <EditText
             name='textbox'
             style={{ fontSize: '16px', border: '1px solid #ccc' }}
             value={count}
             onChange={(e) => handleChange(e, setText,id)}
               
               /> */}
-
-                  
                 </td>
               </tr>
             );
@@ -183,12 +173,13 @@ const ProductTable = ({refresh,setRefresh,setIsPriceChange,isPriceChange}) => {
       <ReactPaginate
         previousLabel={"قبلی"}
         nextLabel={"بعدی"}
-        
         pageCount={pageCount}
         marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
-        containerClassName={"pagination justify-content-center mb-5 pb-5 fixed-bottom"}
+        containerClassName={
+          "pagination justify-content-center mb-5 pb-5 fixed-bottom"
+        }
         pageClassName={"page-item"}
         pageLinkClassName={"page-link"}
         previousClassName={"page-item"}
